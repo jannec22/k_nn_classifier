@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ "$1" = "no-boost" ]; then
+  echo "k=$2"
+  echo "train_set_filename=$3"
+
+  ts=$(echo "$3" | sed 's/\//\\\//g')
+
+  sed "s/__k__/$2/g" <NoBoost.cpp >.temp.cpp
+  sed -i "s/__ts__/$ts/g" .temp.cpp
+
+  g++ .temp.cpp
+else
+  g++ Main.cpp -L/usr/local/include/ -lboost_program_options
+fi
